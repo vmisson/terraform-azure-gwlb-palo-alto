@@ -1,0 +1,108 @@
+{
+    "properties": {
+      "displayName": "k8s-azure-gateway-loadbalancer-ingress",
+      "policyType": "Custom",
+      "mode": "All",
+      "description": "k8s-azure-gateway-loadbalancer-ingress",
+      "metadata": {
+        "category": "Network",
+        "createdBy": "a3e0a76c-f251-447d-8244-e47dbe6746e3",
+        "createdOn": "2023-04-24T15:37:48.2484559Z",
+        "updatedBy": "a3e0a76c-f251-447d-8244-e47dbe6746e3",
+        "updatedOn": "2023-04-25T07:33:12.9807502Z"
+      },
+      "parameters": {
+        "agwlbId": {
+          "type": "String",
+          "metadata": {
+            "displayName": "agwlbId",
+            "description": "Resource ID of the Azure Gateway Load Balancer",
+            "strongType": "Microsoft.Network/loadBalancers"
+          }
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Network/loadBalancers"
+            },
+            {
+              "not": {
+                "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].gatewayLoadBalancer.id",
+                "like": "*"
+              }
+            }
+          ]
+        },
+        "then": {
+            "effect": "deployIfNotExists",
+            "details": {
+              "type": "Microsoft.Network/loadBalancers",
+              "evaluationDelay": "AfterProvisioningSuccess",
+              "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+              ],
+              "deployment": {
+                "properties": {
+                  "mode": "incremental",
+                  "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                      "lbName": {
+                        "type": "String"
+                      },                        
+                      "agwlbId": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    },
+                    "resources": [
+                      {
+                        "name": "[parameters('lbName')]",
+                        "type": "Microsoft.Network/loadBalancers",
+                        "apiVersion": "2022-07-01",
+                        "location": "[parameters('location')]",
+                        "properties": {
+                          "gatewayLoadBalancer": [
+                            {
+                              "id": "[parameters('agwlbId')]"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "parameters": {
+                    "lbName": {
+                        "value": "[field('name')]"
+                    },                    
+                    "agwlbId": {
+                      "value": "[parameters('agwlbId')]"
+                    },
+                    "location": {
+                      "value": "[field('location')]"
+                    }
+                  }
+                }
+              }
+            }
+        }
+      }
+    },
+    "id": "/subscriptions/bfa339d4-ee2f-4040-810b-8ce1c3fb4877/providers/Microsoft.Authorization/policyDefinitions/90c068b3-009a-418a-9ca5-c1d98a5aa46d",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "90c068b3-009a-418a-9ca5-c1d98a5aa46d",
+    "systemData": {
+      "createdBy": "vmisson@microsoft.com",
+      "createdByType": "User",
+      "createdAt": "2023-04-24T15:37:48.2062162Z",
+      "lastModifiedBy": "vmisson@microsoft.com",
+      "lastModifiedByType": "User",
+      "lastModifiedAt": "2023-04-25T07:33:12.9420895Z"
+    }
+  }

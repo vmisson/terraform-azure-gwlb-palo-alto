@@ -27,7 +27,7 @@ resource "azurerm_lb" "aglb" {
   sku = "Gateway"
 
   frontend_ip_configuration {
-    name      = "frontend"
+    name      = "firewall-inspection"
     subnet_id = azurerm_subnet.subnet_pan_data.id
   }
 }
