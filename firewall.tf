@@ -71,6 +71,7 @@ module "paloalto_vmseries_01" {
   password            = coalesce(var.password, random_password.password.result)
   img_version         = var.common_vmseries_version
   img_sku             = var.common_vmseries_sku
+  vm_size             = var.common_vmseries_vm_size
   enable_zones        = true
   bootstrap_options = (join(",",
     [
