@@ -32,6 +32,29 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.123.0.0/24"]
 }
 
+resource "azurerm_network_security_group" "nsg" {
+  name                = "nsg-01"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+
+  security_rule {
+    name                       = "A-Inbound-SSH"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "Internet"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsg_association" {
+  subnet_id                 = azurerm_subnet.subnet.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
 # Create public IPs
 resource "azurerm_public_ip" "public_ip" {
   name                = "${var.vm_name}-pip"
@@ -80,4 +103,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   admin_username                  = var.username
   admin_password                  = coalesce(var.password, random_password.password.result)
   disable_password_authentication = false
+
+  boot_diagnostics {}
 }

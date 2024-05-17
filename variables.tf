@@ -23,16 +23,6 @@ variable "firewall_vm_name" {
   default = "fwvm"
 }
 
-variable "allow_inbound_mgmt_ips" {
-  default = ["1.1.1.1"]
-  type    = list(string)
-
-  validation {
-    condition     = length(var.allow_inbound_mgmt_ips) > 0
-    error_message = "At least one address has to be specified."
-  }
-}
-
 variable "common_vmseries_sku" {
   description = "VM-Series SKU - list available with `az vm image list -o table --all --publisher paloaltonetworks`"
   default     = "byol"
@@ -41,7 +31,8 @@ variable "common_vmseries_sku" {
 
 variable "common_vmseries_version" {
   description = "VM-Series PAN-OS version - list available with `az vm image list -o table --all --publisher paloaltonetworks`"
-  default     = "latest"
+  #default     = "latest"
+  default     = "10.1.4"
   type        = string
 }
 

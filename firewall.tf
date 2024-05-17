@@ -1,3 +1,8 @@
+data "http" "ipinfo" {
+  url   = "https://ifconfig.me"
+  #data.http.ipinfo[0].response_body
+}
+
 resource "azurerm_network_security_group" "fw01-mgmt-nsg" {
   name                = "${var.firewall_vm_name}-mgmt-nsg-01"
   location            = azurerm_resource_group.resource_group.location
@@ -14,7 +19,7 @@ resource "azurerm_network_security_rule" "network_security_rule_mgmt" {
   priority                    = 1000
   protocol                    = "*"
   source_port_range           = "*"
-  source_address_prefixes     = var.allow_inbound_mgmt_ips
+  source_address_prefixes     = [data.http.ipinfo.response_body]
   destination_address_prefix  = "*"
   destination_port_range      = "*"
 }
