@@ -64,7 +64,7 @@ variable "username" {
 
 variable "password" {
   description = "Initial administrative password to use for all systems. Set to null for an auto-generated password."
-  default     = "Microsoft=1=1"
+  default     = ""
   type        = string
 }
 
