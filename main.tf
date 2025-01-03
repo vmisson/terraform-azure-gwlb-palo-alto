@@ -1,3 +1,4 @@
+# You can uncomment this resource if you need the marketplace agreement
 # resource "azurerm_marketplace_agreement" "paloaltonetworks" {
 #   publisher = "paloaltonetworks"
 #   offer     = "vmseries-flex"

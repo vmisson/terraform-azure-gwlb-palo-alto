@@ -28,7 +28,7 @@ variable "firewall_vm_name" {
 }
 
 variable "allow_inbound_mgmt_ips" {
-  default = ["92.157.208.39"]
+  default = ["1.1.1.1"]
   type    = list(string)
 
   validation {
@@ -45,7 +45,8 @@ variable "common_vmseries_sku" {
 
 variable "common_vmseries_version" {
   description = "VM-Series PAN-OS version - list available with `az vm image list -o table --all --publisher paloaltonetworks`"
-  default     = "latest"
+  #default     = "latest"
+  default     = "10.1.4"
   type        = string
 }
 
