@@ -80,4 +80,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   admin_username                  = var.username
   admin_password                  = coalesce(var.password, random_password.password.result)
   disable_password_authentication = false
+
+  boot_diagnostics {}
 }

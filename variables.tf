@@ -1,6 +1,10 @@
+variable "subscription_id" {
+  type = string
+}
+
 variable "location" {
   type    = string
-  default = "West Europe"
+  default = "France Central"
 }
 
 variable "resource_group_name" {
@@ -24,7 +28,7 @@ variable "firewall_vm_name" {
 }
 
 variable "allow_inbound_mgmt_ips" {
-  default = ["1.1.1.1"]
+  default = ["92.157.208.39"]
   type    = list(string)
 
   validation {
@@ -59,13 +63,8 @@ variable "username" {
 
 variable "password" {
   description = "Initial administrative password to use for all systems. Set to null for an auto-generated password."
-  default     = ""
+  default     = "Microsoft=1=1"
   type        = string
-}
-
-variable "avzones" {
-  type    = list(string)
-  default = ["1", "2", "3"]
 }
 
 variable "enable_zones" {
