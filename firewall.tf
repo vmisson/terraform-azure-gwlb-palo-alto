@@ -1,5 +1,5 @@
 data "http" "ipinfo" {
-  url   = "https://ifconfig.me"
+  url   = "http://ifconfig.me/ip"
   #data.http.ipinfo[0].response_body
 }
 
